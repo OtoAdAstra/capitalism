@@ -14,6 +14,7 @@ export default function LibertyToggler() {
     wealth: false,
     overregulation: false,
   });
+ 
 
   const handleToggle = (key: keyof SwitchStates) => {
     setSwitchStates((prev) => {
