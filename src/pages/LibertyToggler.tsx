@@ -5,30 +5,28 @@ import Switch from "react-switch";
 type SwitchStates = {
   freedom: boolean;
   wealth: boolean;
-  overregulation: boolean;
+  overregulations: boolean;
 };
 
 export default function LibertyToggler() {
   const [switchStates, setSwitchStates] = useState<SwitchStates>({
     freedom: false,
     wealth: false,
-    overregulation: false,
+    overregulations: false,
   });
- 
 
   const handleToggle = (key: keyof SwitchStates) => {
     setSwitchStates((prev) => {
-      const newState = Object.assign({}, prev, { [key]: !prev[key] });
+      const newState = { ...prev, [key]: !prev[key] };
 
-      const trueKeys = new Set(
-        Object.entries(newState)
-          .filter(([, value]) => value)
-          .map(([key]) => key)
-      );
+      const trueKeys = Object.entries(newState)
+        .filter(([, value]) => value)
+        .map(([key]) => key);
 
-      if (trueKeys.size > 2) {
+      if (trueKeys.length > 2) {
+        const otherKeys = trueKeys.filter((k) => k !== key);
         const randomKey =
-          Array.from(trueKeys)[Math.floor(Math.random() * trueKeys.size)];
+          otherKeys[Math.floor(Math.random() * otherKeys.length)];
         newState[randomKey as keyof SwitchStates] = false;
       }
 
@@ -39,7 +37,7 @@ export default function LibertyToggler() {
   return (
     <div className="liberty-toggler">
       <h2>Formula of life:</h2>
-      {(["freedom", "wealth", "overregulation"] as (keyof SwitchStates)[]).map(
+      {(["freedom", "wealth", "overregulations"] as (keyof SwitchStates)[]).map(
         (key) => (
           <div className="switch-div" key={key}>
             <label htmlFor={key}>
